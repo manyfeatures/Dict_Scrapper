@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
-#import argparse 
+#import argparse
+
 
 class Scrapper():
     def __init__(self, url, headers, proxy=None):
@@ -12,24 +13,26 @@ class Scrapper():
     def download_data(self, word):
         #    headers = {'user-agent': 'my-app/0.0.1'}
         url = ''.join([self.url, word])
-        s = requests.Session() #?
+        s = requests.Session()  # ?
         page = s.get(url,
                      headers=self.headers,
-                     #params=data_to_send,
+                     # params=data_to_send,
                      proxies={"http": self.proxy, "https": self.proxy},
-                     stream=True #?
-                    )
+                     stream=True  # ?
+                     )
         # process connection error
         self.page_content = BeautifulSoup(page.content, 'html.parser')
 
     def find_word(self, word):
         self.download_data(word)
-        #return self.page_content
-        a = self.page_content.find("div", {"class", "top-container"}).find('h1', {'class', 'headword'}).text
+        # return self.page_content
+        a = self.page_content.find(
+            "div", {"class", "top-container"}).find('h1', {'class', 'headword'}).text
         return a.upper()
 
+
 def main():
-    url = 'https://www.oxfordlearnersdictionaries.com/definition/english/'    
+    url = 'https://www.oxfordlearnersdictionaries.com/definition/english/'
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0",
         "Accept": "*/*",
@@ -42,5 +45,5 @@ def main():
     print(res)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
