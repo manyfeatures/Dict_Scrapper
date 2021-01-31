@@ -64,18 +64,33 @@ class Scrapper():
             # This is why we use loop to not get into the examples tags
             for child in def_.findChildren(recursive=False):
                 #print('inside')
-                if child['class'][0] == 'cf':
-                    print(f' ["{child.text}"] ', end=': ')
+                try: # addition protection if index for some children out of range
+                    if child['class'][0] == 'cf':
+                        print(f' ["{child.text}"] ', end=': ')
+                except:
+                    pass
         except:
             print(end='')
 
     def print_label(self, def_):
-        """ Also can be as in the def as in the examples """
-        pass
-        # if def_.find('span', {'class', 'labels'}) is not None:
-        #     print(def_.find('span', {'class', 'labels'}).get_text(), end='')
-        # else:
-        #     print(end='')
+        """ informal and other labels """
+        try:
+            # this can be ambigous and can retieve example's tag "cf"
+            # This is why we use loop to not get into the examples tags
+            for child in def_.findChildren(recursive=False):
+                #print('inside')
+                try: # addition protection if index for some children out of range
+                    if child['class'][0] == 'labels':
+                        print(f' ["{child.text}"] ', end=': ')
+                except:
+                    pass
+        except:
+            print(end='')
+        # try:
+        #     if def_.find('span', {'class', 'labels'}) is not None:
+        #         print(def_.find('span', {'class', 'labels'}).get_text(), end='')
+        #     else:
+        #         print(end='')
 
     def print_single_definition(self, def_):    
         self.print_grammar_label(def_)
