@@ -50,9 +50,13 @@ class Scrapper():
         am_pron = phone.find(class_="phons_n_am").get_text().strip()
         print(f"Am: {br_pron}")
 
-    def print_definition(self, def_):    
-        # grammar. What does it mean? 
-        print(def_.find('span', {'class', 'grammar'}).get_text(), end = ' ')
+    def print_single_definition(self, def_):    
+        # If there is a grammar in the line. What does it mean?
+        try:  
+            print(def_.find('span', {'class', 'grammar'}).get_text(), end = ' ')
+        except:
+            print(end = '')
+
         # labels
         if def_.find('span', {'class', 'labels'}) is not None:
             print(def_.find('span', {'class', 'labels'}).get_text())
@@ -62,31 +66,44 @@ class Scrapper():
         print(def_.find('span', {'class', 'def'}).get_text())  
         print()
 
-    def print_examples(self, def_):
-        # We need try if there is no objects corresponding to examples
-        try:
-            # going through examples
-            for i, examp in enumerate(def_.find(class_='examples').find_all('li')):
-                # As some examples have "specification: text" structure
-                # We need to try to take it
+    def print_examples_(self, def_):
+        # going through examples
+        for i, examp in enumerate(def_.find(class_='examples').find_all('li')):
+            # As some examples have "specification: text" structure
+            # We need to try to take it
+            print(f"{i})", end=' ')
+            try:
+                #print(f"{i})", end='')
+                print(f' "{examp.find(class_="cf").text}" ', end=': ')
+                print(examp.find(class_='x').text) # it has duplicate
+            # If there is no specification then it is skipped
+            except (NameError, AttributeError) as e:
                 try:
-                    print(f"{i}) {examp.find(class_='cf').text}", end=': ')
+                    #print(f"{i})")
                     print(examp.find(class_='x').text) # it has duplicate
-                # If there is no specification then it is skipped
-                except (NameError, AttributeError) as e:
-                    try:
-                        print(example.find(class_='x').text) # it has duplicate
-                    except:
-                        print(None)
-        except AttributeError:
+                except e:
+                    #print(e)
+                    pritn(None)
+
+    def print_examples(self, def_):
+        # We need try because 
+        # there can ben objects corresponding to examples
+        try:
+            self.print_examples_(def_)
+        except AttributeError as e:
             print('0) No examples')
- 
+        except:
+            print("Unknow error")
+
     def get_definitions(self):
         defs = self.page.find('ol', {'class', 'senses_multiple'}).find_all(class_='sense')
         print('DEFINITIONS:\n')
-        for def_ in defs:
-            self.print_definition(def_)
+        for i, def_ in enumerate(defs):
+            print(f"#{i}")
+            self.print_single_definition(def_)
+            print('Examples:')
             self.print_examples(def_)
+            print()
             print('------------------------')
 
 
@@ -117,3 +134,8 @@ if __name__ == "__main__":
 
 
 # python scrapper.py -h show description
+#[transitive, no passive] get something to receive something
+# doesn't print get something
+
+
+
