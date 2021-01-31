@@ -18,6 +18,7 @@ Launch oxford dict from terminal
 
 # For some words definition isn't printed
 # 'propulsion'
+# `trade-off`
 
 # transciprions are badly formatted
 
