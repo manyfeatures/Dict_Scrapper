@@ -2,6 +2,14 @@ from bs4 import BeautifulSoup
 import requests
 import argparse
 
+# correct place?
+url = 'https://www.oxfordlearnersdictionaries.com/definition/english/'
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0",
+    "Accept": "*/*",
+    "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
+    "Accept-Encoding": "gzip, deflate, br"}
+
 
 class Scrapper():
     def __init__(self, url, headers, proxy=None):
@@ -43,16 +51,19 @@ class Scrapper():
         print(f"Am: {br_pron}")
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="OXygEN Dictinary package v0.1")
+    parser.add_argument("word", help="Enter a word to search")
+    return parser.parse_args()
+
+
 def main():
-    url = 'https://www.oxfordlearnersdictionaries.com/definition/english/'
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0",
-        "Accept": "*/*",
-        "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
-        "Accept-Encoding": "gzip, deflate, br"}
+    args = parse_args()
+    print(f"args: {args}")
+    print(args.word)  # check
 
     scrapper = Scrapper(url, headers)
-    word = 'abandon'
+    word = args.word
     # Get the content
     scrapper.download_data(word) 
     scrapper.get_top_block() 
@@ -62,3 +73,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+# python scrapper.py -h show description
