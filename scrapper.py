@@ -50,19 +50,31 @@ class Scrapper():
         am_pron = phone.find(class_="phons_n_am").get_text().strip()
         print(f"Am: {br_pron}")
 
-    def print_single_definition(self, def_):    
+    def print_grammar_label(self, def_):
         # If there is a grammar in the line. What does it mean?
         try:  
             print(def_.find('span', {'class', 'grammar'}).get_text(), end = ' ')
         except:
-            print(end = '')
+            print(end='')
 
-        # labels
+    def print_usage_label(self, def_):
+        # usage structure?
+        try:
+            #print(f' ["{def_.find(class_="cf").text}"] ', end=': ') # this can be ambigous label
+        except:
+            print(end='')
+
+    def print_label(self, def_):
         if def_.find('span', {'class', 'labels'}) is not None:
-            print(def_.find('span', {'class', 'labels'}).get_text())
+            print(def_.find('span', {'class', 'labels'}).get_text(), end='')
         else:
-            print()
-        #defenition
+            print(end='')
+
+    def print_single_definition(self, def_):    
+        self.print_grammar_label(def_)
+        self.print_usage_label(def_)
+        self.print_label(def_) 
+        #definition
         print(def_.find('span', {'class', 'def'}).get_text())  
         print()
 
@@ -73,13 +85,11 @@ class Scrapper():
             # We need to try to take it
             print(f"{i})", end=' ')
             try:
-                #print(f"{i})", end='')
                 print(f' "{examp.find(class_="cf").text}" ', end=': ')
                 print(examp.find(class_='x').text) # it has duplicate
             # If there is no specification then it is skipped
             except (NameError, AttributeError) as e:
                 try:
-                    #print(f"{i})")
                     print(examp.find(class_='x').text) # it has duplicate
                 except e:
                     #print(e)
@@ -134,8 +144,8 @@ if __name__ == "__main__":
 
 
 # python scrapper.py -h show description
-#[transitive, no passive] get something to receive something
+# [transitive, no passive] get something to receive something
 # doesn't print get something
-
+# there can be separated examples block
 
 
