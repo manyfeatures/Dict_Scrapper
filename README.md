@@ -15,4 +15,7 @@ Launch oxford dict from terminal
 # make pypi package
 
 # launch from terminal
+
+# For some words definition isn't printed
+# 'propulsion'
 ```
