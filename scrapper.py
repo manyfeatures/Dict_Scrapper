@@ -58,9 +58,12 @@ class Scrapper():
             print(end='')
 
     def print_usage_label(self, def_):
+        """it needs to be finalized"""
         # usage structure?
         try:
-            #print(f' ["{def_.find(class_="cf").text}"] ', end=': ') # this can be ambigous label
+            pass
+            #print(f' ["{def_.find(class_="cf").text}"] ', end=': ') # this can be ambigous 
+            # and can retieve example's tag "cf"
         except:
             print(end='')
 
@@ -72,7 +75,7 @@ class Scrapper():
 
     def print_single_definition(self, def_):    
         self.print_grammar_label(def_)
-        self.print_usage_label(def_)
+        #self.print_usage_label(def_)
         self.print_label(def_) 
         #definition
         print(def_.find('span', {'class', 'def'}).get_text())  
