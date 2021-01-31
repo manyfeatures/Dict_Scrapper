@@ -58,24 +58,28 @@ class Scrapper():
             print(end='')
 
     def print_usage_label(self, def_):
-        """it needs to be finalized"""
         # usage structure?
         try:
-            pass
-            #print(f' ["{def_.find(class_="cf").text}"] ', end=': ') # this can be ambigous 
-            # and can retieve example's tag "cf"
+            # this can be ambigous and can retieve example's tag "cf"
+            # This is why we use loop to not get into the examples tags
+            for child in def_.findChildren(recursive=False):
+                #print('inside')
+                if child['class'][0] == 'cf':
+                    print(f' ["{child.text}"] ', end=': ')
         except:
             print(end='')
 
     def print_label(self, def_):
-        if def_.find('span', {'class', 'labels'}) is not None:
-            print(def_.find('span', {'class', 'labels'}).get_text(), end='')
-        else:
-            print(end='')
+        """ Also can be as in the def as in the examples """
+        pass
+        # if def_.find('span', {'class', 'labels'}) is not None:
+        #     print(def_.find('span', {'class', 'labels'}).get_text(), end='')
+        # else:
+        #     print(end='')
 
     def print_single_definition(self, def_):    
         self.print_grammar_label(def_)
-        #self.print_usage_label(def_)
+        self.print_usage_label(def_)
         self.print_label(def_) 
         #definition
         print(def_.find('span', {'class', 'def'}).get_text())  
@@ -88,7 +92,7 @@ class Scrapper():
             # We need to try to take it
             print(f"{i})", end=' ')
             try:
-                print(f' "{examp.find(class_="cf").text}" ', end=': ')
+                print(f' "{examp.find(class_="cf").text}" ', end=': ') 
                 print(examp.find(class_='x').text) # it has duplicate
             # If there is no specification then it is skipped
             except (NameError, AttributeError) as e:
