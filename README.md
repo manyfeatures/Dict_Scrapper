@@ -18,4 +18,8 @@ Launch oxford dict from terminal
 
 # For some words definition isn't printed
 # 'propulsion'
+
+# transciprions are badly formatted
+
+# some words have multiple minings sitting on different links
 ```
