@@ -22,5 +22,5 @@ Launch oxford dict from terminal
 
 # transciprions are badly formatted
 
-# some words have multiple minings sitting on different links
+# some words have multiple meanings sitting on different links
 ```
