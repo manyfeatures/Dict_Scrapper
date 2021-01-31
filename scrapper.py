@@ -86,11 +86,6 @@ class Scrapper():
                     pass
         except:
             print(end='')
-        # try:
-        #     if def_.find('span', {'class', 'labels'}) is not None:
-        #         print(def_.find('span', {'class', 'labels'}).get_text(), end='')
-        #     else:
-        #         print(end='')
 
     def print_single_definition(self, def_):    
         self.print_grammar_label(def_)
@@ -108,14 +103,20 @@ class Scrapper():
             print(f"{i})", end=' ')
             try:
                 print(f' "{examp.find(class_="cf").text}" ', end=': ') 
+                print(examp.find(class_ = 'labels').text, end=' ')
                 print(examp.find(class_='x').text) # it has duplicate
+                #print(examp.find('span', {'class', 'labels'}).get_text(), end=' ')
             # If there is no specification then it is skipped
             except (NameError, AttributeError) as e:
                 try:
+                    print(examp.find(class_ = 'labels').text, end=' ')
                     print(examp.find(class_='x').text) # it has duplicate
-                except e:
-                    #print(e)
-                    pritn(None)
+                except:
+                    try:
+                        print(examp.find(class_='x').text) # it has duplicate
+                    except e:
+                        #print(e)
+                        pritn(None)
 
     def print_examples(self, def_):
         # We need try because 
