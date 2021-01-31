@@ -12,12 +12,13 @@ headers = {
 
 
 class Scrapper():
-    def __init__(self, url, headers, proxy=None):
+    def __init__(self, url, headers, examples_flag, proxy=None):
         self.url = url
         self.headers = headers
         self.proxy = proxy
         self.page = None
         self.def_ = None  # this is just the word
+        self.examples_flag = examples_flag
 
     def download_data(self, word):
         url = ''.join([self.url, word])
@@ -144,29 +145,29 @@ class Scrapper():
         defs = self.page.find('ol', {'class', 'senses_multiple'}).find_all(class_='sense')
         print('DEFINITIONS:\n')
         for i, def_ in enumerate(defs):
-            print(f"#{i}")
+            print(f"#{i+1}")
             self.print_single_definition(def_)
-            print('Examples:')
-            self.print_examples(def_)
-            print()
+            if self.examples_flag == True:
+                print('Examples:')
+                self.print_examples(def_)
+                print()
             print('------------------------')
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="OXygEN Dictinary package v0.1")
     parser.add_argument("word", help="Enter a word to search")
+    parser.add_argument("--no_examples", action='store_false' ,help="print examples") # can be boolen
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
     print(f"args: {args}")
-    print(args.word)  # check
-
-    scrapper = Scrapper(url, headers)
-    word = args.word
+    print()  # check
+    scrapper = Scrapper(url, headers, args.no_examples)
     # Get the content
-    scrapper.download_data(word) 
+    scrapper.download_data(args.word) 
     scrapper.get_top_block()
     print('---------------------')
     scrapper.get_definitions() 
@@ -176,11 +177,16 @@ def main():
 
 if __name__ == "__main__":
     main()
-
+# call it like
+# python scrapper.py word --no_examples
 
 # python scrapper.py -h show description
 # [transitive, no passive] get something to receive something
 # doesn't print get something
 # there can be separated examples block
+# can't handle compex words like take off
+# it should be "take+off"
 
+# make pypi package 
 
+# launch from terminal
