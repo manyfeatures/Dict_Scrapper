@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-#import argparse
+import argparse
 
 
 class Scrapper():
@@ -9,9 +9,9 @@ class Scrapper():
         self.headers = headers
         self.proxy = proxy
         self.page_content = None
+        self.def_ = None  # this is just the word
 
     def download_data(self, word):
-        #    headers = {'user-agent': 'my-app/0.0.1'}
         url = ''.join([self.url, word])
         s = requests.Session()  # ?
         page = s.get(url,
@@ -20,15 +20,27 @@ class Scrapper():
                      proxies={"http": self.proxy, "https": self.proxy},
                      stream=True  # ?
                      )
-        # process connection error
         self.page_content = BeautifulSoup(page.content, 'html.parser')
 
-    def find_word(self, word):
-        self.download_data(word)
-        # return self.page_content
-        a = self.page_content.find(
-            "div", {"class", "top-container"}).find('h1', {'class', 'headword'}).text
-        return a.upper()
+    # def get_definition(self, word):
+    #     self.def_ = self.page_content.find("div", {"class", "top-container"}).\
+    #                      find('h1', {'class', 'headword'}).text
+    #     print(self.def_.upper())
+
+    def get_top_block(self):
+        tmp = self.page_content.find("div", {"class", "top-container"})
+        #print(tmp)
+        #definition
+        self.def_  = tmp.find('h1', {'class', 'headword'}).text # make method?
+        print(f"Word: {self.def_.upper()}")
+        #phonetics        
+        print('Phonetics:')
+        phone = tmp.find(class_='phonetics')
+        # transcriptions
+        br_pron = phone.find(class_="phons_br").get_text().strip()
+        print(f"Br: {br_pron}")
+        am_pron = phone.find(class_="phons_n_am").get_text().strip()
+        print(f"Am: {br_pron}")
 
 
 def main():
@@ -39,10 +51,13 @@ def main():
         "Accept-Language": "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3",
         "Accept-Encoding": "gzip, deflate, br"}
 
-    scr = Scrapper(url, headers)
+    scrapper = Scrapper(url, headers)
     word = 'abandon'
-    res = scr.find_word(word)
-    print(res)
+    # Get the content
+    scrapper.download_data(word) 
+    scrapper.get_top_block() 
+    #res = scrapper.search_word(word)
+    #print(res)
 
 
 if __name__ == "__main__":
