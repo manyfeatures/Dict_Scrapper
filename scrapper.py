@@ -66,7 +66,7 @@ class Scrapper():
                 #print('inside')
                 try: # addition protection if index for some children out of range
                     if child['class'][0] == 'cf':
-                        print(f' ["{child.text}"] ', end=': ')
+                        print(f' ["{child.text}"] ', end=' ')
                 except:
                     pass
         except:
@@ -105,7 +105,6 @@ class Scrapper():
                 print(f' "{examp.find(class_="cf").text}" ', end=': ') 
                 print(examp.find(class_ = 'labels').text, end=' ')
                 print(examp.find(class_='x').text) # it has duplicate
-                #print(examp.find('span', {'class', 'labels'}).get_text(), end=' ')
             # If there is no specification then it is skipped
             except (NameError, AttributeError) as e:
                 try:
@@ -117,6 +116,19 @@ class Scrapper():
                     except e:
                         #print(e)
                         pritn(None)
+
+            # How to make it with if-else without `try-except`?
+            # if examp.find(class_="cf").text is not None:
+            #     print(f' "{examp.find(class_="cf").text}" ', end=': ') 
+            # if examp.find(class_ = 'labels').text is not None:
+            #     print(examp.find(class_ = 'labels').text, end=' ')
+            # if examp.find(class_='x').text is not None:
+            #     print(examp.find(class_='x').text) # it has duplicate
+            # # If there is no specification then it is skipped
+            # else:
+            #     print(None)
+
+
 
     def print_examples(self, def_):
         # We need try because 
