@@ -139,14 +139,21 @@ class Scrapper():
         except BaseException:
             print("Unknow error")
     
-    def get_definitions(self):
+    def handle_single_and_multiple_defs(self):
         if self.page.find('ol', {'class', 'senses_multiple'}) is not None:
             defs = self.page.find('ol', {'class', 'senses_multiple'}).\
                 find_all(class_='sense')
+            return defs          
         elif self.page.find('ol', {'class', 'sense_single'})  is not None:
             defs = self.page.find('ol', {'class', 'sense_single'}).\
                 find_all(class_='sense')          
+            return defs
         else:
+            return None
+        
+    def get_definitions(self):
+        defs = self.handle_single_and_multiple_defs()
+        if defs is None:
             print("Neither single nor multiple!")
             raise ValueError('Neither single nor multiple!')
         print('DEFINITIONS:\n')
