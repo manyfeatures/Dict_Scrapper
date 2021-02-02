@@ -49,7 +49,7 @@ class Scrapper():
         br_pron = phone.find(class_="phons_br").get_text().strip()
         print(f"Br: {br_pron}")
         am_pron = phone.find(class_="phons_n_am").get_text().strip()
-        print(f"Am: {br_pron}")
+        print(f"Am: {am_pron}")
 
     def print_grammar_label(self, def_):
         # If there is a grammar in the line. What does it mean?
