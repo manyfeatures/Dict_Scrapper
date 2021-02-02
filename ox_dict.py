@@ -138,10 +138,17 @@ class Scrapper():
             print('0) No examples')
         except BaseException:
             print("Unknow error")
-
+    
     def get_definitions(self):
-        defs = self.page.find('ol', {'class', 'senses_multiple'}).\
-            find_all(class_='sense')
+        if self.page.find('ol', {'class', 'senses_multiple'}) is not None:
+            defs = self.page.find('ol', {'class', 'senses_multiple'}).\
+                find_all(class_='sense')
+        elif self.page.find('ol', {'class', 'sense_single'})  is not None:
+            defs = self.page.find('ol', {'class', 'sense_single'}).\
+                find_all(class_='sense')          
+        else:
+            print("Neither single nor multiple!")
+            raise ValueError('Neither single nor multiple!')
         print('DEFINITIONS:\n')
         for i, def_ in enumerate(defs):
             print(f"#{i+1}")
