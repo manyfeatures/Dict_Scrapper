@@ -180,8 +180,8 @@ def parse_args():
 
 def main():
     args = parse_args()
-    print(f"args: {args}")
-    print()  # check
+    #print(f"args: {args}")
+    #print()  # check
     scrapper = Scrapper(url, headers, args.no_examples)
     # Get the content
     scrapper.download_data(args.word)
@@ -194,6 +194,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 # call it like
 # python scrapper.py word --no_examples
 
