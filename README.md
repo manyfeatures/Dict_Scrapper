@@ -3,7 +3,7 @@ Launch oxford dict from terminal
 
 ```
 # call it like
-# python scrapper.py word --no_examples
+# python scrapper.py word --no_examples 
 
 # there can be separated examples block for one meaning 
 
