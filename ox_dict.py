@@ -193,7 +193,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()*
+    main()**
 
 # call it like
 # python scrapper.py word --no_examples
